@@ -7,13 +7,13 @@ The question class you pick must have at least three variables that can be chang
 
 <div style="border:1px grey solid; padding:5px;">
     <div><h5>X</h5>
-        <input id="arg1" type="text" value="something"/>
+        <input id="arg1" type="number" value="Reviews"/>
     </div>
     <div><h5>Y</h5>
-        <input id="arg2" type="text" value="something"/>
+        <input id="arg2" type="number" value="Stars"/>
     </div>
     <div><h5>Z</h5>
-        <input id="arg2" type="text" value="something"/>
+        <input id="arg3" type="text" value="States"/>
     </div>    
     <div style="margin:20px;">
         <button id="viz">Vizualize</button>
@@ -63,7 +63,7 @@ function viz(arg1, arg2, arg3){
     }
 
     function computeWidth(d, i) {        
-        return i * 20 + 20
+        return d[1].length/2
     }
 
     function computeY(d, i) {
@@ -75,12 +75,29 @@ function viz(arg1, arg2, arg3){
     }
 
     function computeLabel(d, i) {
-        return 'f' + i
+        return d[0]
     }
-
+    
+    items = _.filter(items, function(d){
+    return d.state == arg3})
+    
+    
+    //filter by stars.
+    items = _.filter(items, function(d){
+    return d.stars >= arg2})
+    
+    //filter by reviw count
+     items = _.filter(items, function(d){
+    return d.review_count >= arg1})
+    
+    items = _.groupBy(items, 'city')
+    items = _.pairs(items)
+    items = _.sortBy(items, function(d){return d[1].length}).reverse()
+    console.log('stars', _.pluck(items,'stars'))
     // TODO: modify the logic here based on your UI
     // take the first 20 items to visualize    
     items = _.take(items, 20)
+    
 
     var viz = _.map(items, function(d, i){                
                 return {
@@ -103,9 +120,9 @@ function viz(arg1, arg2, arg3){
 }
 
 $('button#viz').click(function(){    
-    var arg1 = 'TODO'
-    var arg2 = 'TODO'
-    var arg3 = 'TODO'    
+    var arg1 = $('input#arg1').val()
+    var arg2 = $('input#arg2').val()    
+    var arg3 = $('input#arg3').val()    
     viz(arg1, arg2, arg3)
 })  
 
