@@ -46,15 +46,16 @@ function viz(arg1, arg2, arg3){
 
     // define a template string
     var tplString = '<g transform="translate(0 ${d.y})"> \
-                    <text y="20">${d.label}</text> \
                     <rect x="30"   \
                          width="${d.width}" \
                          height="20"    \
                          style="fill:${d.color};    \
                                 stroke-width:3; \
                                 stroke:rgb(0,0,0)" />   \
+                    <text y="20">${d.label}</text> \
                     </g>'
 
+    
     // compile the string to get a template function
     var template = _.template(tplString)
 
@@ -63,7 +64,7 @@ function viz(arg1, arg2, arg3){
     }
 
     function computeWidth(d, i) {        
-        return d[1].length/2
+        return d[1].length
     }
 
     function computeY(d, i) {
@@ -75,31 +76,31 @@ function viz(arg1, arg2, arg3){
     }
 
     function computeLabel(d, i) {
-        return d[0]
+        return d[0] + ": "+ d[1].length
     }
-    
-    items = _.filter(items, function(d){
+    console.log('hello')
+    bus = _.filter(items, function(d){
     return d.state == arg3})
     
     
     //filter by stars.
-    items = _.filter(items, function(d){
+    bus = _.filter(bus, function(d){
     return d.stars >= arg2})
     
     //filter by reviw count
-     items = _.filter(items, function(d){
+     bus = _.filter(bus, function(d){
     return d.review_count >= arg1})
     
-    items = _.groupBy(items, 'city')
-    items = _.pairs(items)
-    items = _.sortBy(items, function(d){return d[1].length}).reverse()
-    console.log('stars', _.pluck(items,'stars'))
+    bus = _.groupBy(bus, 'city')
+    bus = _.pairs(bus)
+    bus = _.sortBy(bus, function(d){return d[1].length}).reverse()
+    console.log('stars', _.pluck(bus,'stars'))
     // TODO: modify the logic here based on your UI
-    // take the first 20 items to visualize    
-    items = _.take(items, 20)
+    // take the first 20 bus to visualize    
+    bus = _.take(bus, 20)
     
 
-    var viz = _.map(items, function(d, i){                
+    var viz = _.map(bus, function(d, i){                
                 return {
                     x: computeX(d, i),
                     y: computeY(d, i),
@@ -131,8 +132,8 @@ $('button#viz').click(function(){
 # Authors
 
 This UI is developed by
-* [Full name](link to github account)
-* [Full name](link to github account)
-* [Full name](link to github account)
-* [Full name](link to github account)
-* [Full name](link to github account)
+* [Caleb Hsu](https://github.com/calebhsu/)
+* [Andrew Linenfelser](https://github.com/Linenfelser)
+* [Zhili Yang](https://github.com/zhya215)
+* [Andrey Shprengel](https://github.com/AndreyShprengel)
+* [Andrew Berumen](https://github.com/anbe6083)
